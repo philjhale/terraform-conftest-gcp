@@ -1,6 +1,6 @@
 # terraform-conftest-gcp
 
-Playground for validating Terraform plans using Conftest
+Playground for validating Terraform plans using Conftest.
 
 # Prerequisites
 - Terraform
@@ -9,7 +9,6 @@ Playground for validating Terraform plans using Conftest
 - Docker
 
 # Local set up
-
 Set up environment variables.
 ```
 export GOOGLE_PROJECT_ID=my-project-id
@@ -26,11 +25,10 @@ terraform show -json ./terraform.tfplan > ./terraform.tfplan.json
 
 Run Conftest.
 ```
-docker run --rm -v $(pwd):/project -v $(pwd)/policy:/policy  instrumenta/conftest test project/terraform.tfplan.json
+docker run --rm -v $(pwd):/project -v $(pwd)/policy:/policy instrumenta/conftest test project/terraform.tfplan.json
 ```
 
 # Cloud Build set up
-
 ```
 gcloud builds submit .
 ```

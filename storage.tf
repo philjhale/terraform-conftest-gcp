@@ -24,6 +24,6 @@ module "gcs_buckets3" {
   names      = ["bucket-invalid-environment-label"]
   prefix     = ""
   labels = {
-    env = "devvvv"
+    env = "devv"
   }
 }
