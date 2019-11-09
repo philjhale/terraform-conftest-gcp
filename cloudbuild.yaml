@@ -28,7 +28,7 @@ steps:
     - |-
       terraform show -json tfplan.binary > tfplan.json
   waitFor: ['tf-plan']
-- id: 'conftest'
+- id: 'tf-plan-test'
   name: 'instrumenta/conftest'
   args: ['test', 'tfplan.json'] 
   waitFor: ['tf-convert-plan-to-json'] 
