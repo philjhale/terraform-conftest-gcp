@@ -1,0 +1,5 @@
+.terraform
+credentials.json
+*.tfplan
+terraform.tfplan.json
+.DS_Store

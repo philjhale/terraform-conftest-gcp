@@ -1,0 +1,34 @@
+substitutions:
+  _TERRAFORM_VERSION: latest
+steps:
+- id: 'tf-init'
+  name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
+  args: ['init', '-backend-config=bucket=${PROJECT_ID}_terraform']
+  env:
+    - 'GOOGLE_CLOUD_PROJECT=$PROJECT_ID'
+- id: 'tf-format'
+  name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
+  args: ['fmt', '-list=true', '-write=false', '-diff=true', '-check=true', '.']
+  waitFor: ['tf-init']
+- id: 'tf-validate'
+  name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
+  args: ['validate']
+  waitFor: ['tf-init']
+- id: 'tf-plan'
+  name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
+  args: ['plan', '-lock=false', '-out=tfplan.binary']
+  env:
+    - 'TF_VAR_google_project_id=$PROJECT_ID'
+  waitFor: ['tf-init']
+- id: 'tf-convert-plan-to-json'
+  name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
+  entrypoint: 'sh'
+  args:
+    - '-c'
+    - |-
+      terraform show -json tfplan.binary > tfplan.json
+  waitFor: ['tf-plan']
+- id: 'conftest'
+  name: 'instrumenta/conftest'
+  args: ['test', 'tfplan.json'] 
+  waitFor: ['tf-convert-plan-to-json'] 
