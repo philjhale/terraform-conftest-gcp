@@ -42,7 +42,5 @@ gcloud builds submit .
 
 # Links
 
+- [Conftest](https://github.com/instrumenta/conftest)
 - [Rego safety FAQ](https://www.openpolicyagent.org/docs/latest/faq/#safety)
-
-
-docker run --rm -it -v $(pwd):/project --entrypoint=/bin/sh instrumenta/conftest 
